@@ -1,10 +1,10 @@
 {
   "metadata": {
-    "version": "2.1.0",
+    "version": "1.2.1",
     "last_updated": "2025-12-01",
     "default_currency": "MXN",
     "description": "Comprehensive closing costs database for Mexican real estate transactions including all 32 states - RESIDENTIAL PROPERTIES ONLY",
-    "notes": "ISAI rates apply to RESIDENTIAL properties only (condos, houses, residential land) - NOT commercial, agricultural, or other property types. Rates and fees vary by state and municipality. Source: December 2025 state finance laws via SAT/SHCP. Always verify with local authorities."
+    "notes": "ISAI rates apply to RESIDENTIAL properties only (condos, houses, residential land) - NOT commercial, agricultural, or other property types. Rates and fees vary by state and municipality. Source: December 2025 state finance laws via SAT/SHCP. Always verify with local authorities. Updated to include home_inspection and closing_coordinator fee definitions."
   },
 
   "fee_definitions": [
@@ -175,7 +175,33 @@
       "varies_by_state": false,
       "required": false,
       "paid_by": "buyer",
-      "notes": "Required for documents not in Spanish"
+      "notes": "Required for documents not in Spanish. Note: Closing coordinators who are attorneys may provide translation services, potentially eliminating the need for a separate translator."
+    },
+    {
+      "id": "home_inspection",
+      "category": "Professional Services",
+      "subcategory": "Property Inspection",
+      "calc_type": "fixed_range",
+      "default_min": 350,
+      "default_max": 1200,
+      "description": "Professional property inspection to assess condition, structural integrity, and identify potential issues",
+      "varies_by_state": false,
+      "required": false,
+      "paid_by": "buyer",
+      "notes": "Typical cost: $350-$500 for condos, $500-$1200 for houses. Highly recommended for foreign buyers to identify issues before purchase."
+    },
+    {
+      "id": "closing_coordinator",
+      "category": "Professional Services",
+      "subcategory": "Closing Coordination",
+      "calc_type": "fixed_range",
+      "default_min": 500,
+      "default_max": 1000,
+      "description": "Independent professional or closing company representative who manages transaction logistics, coordinates with banks and government agencies, and interfaces with all parties",
+      "varies_by_state": false,
+      "required": false,
+      "paid_by": "buyer",
+      "notes": "Acts as neutral representative for buyer, seller, and agents. Many closing coordinators are licensed Mexican attorneys, but this is not required. They do not provide legal advice or represent a single party's interests (that is the role of an independent real estate attorney). May provide translation services, potentially eliminating need for separate translator. Not fiduciarily bound to any party."
     }
   ],
 
