@@ -1,0 +1,708 @@
+{
+  "metadata": {
+    "version": "2.1.0",
+    "last_updated": "2025-12-01",
+    "default_currency": "MXN",
+    "description": "Comprehensive closing costs database for Mexican real estate transactions including all 32 states - RESIDENTIAL PROPERTIES ONLY",
+    "notes": "ISAI rates apply to RESIDENTIAL properties only (condos, houses, residential land) - NOT commercial, agricultural, or other property types. Rates and fees vary by state and municipality. Source: December 2025 state finance laws via SAT/SHCP. Always verify with local authorities."
+  },
+
+  "fee_definitions": [
+    {
+      "id": "escrow_fee",
+      "category": "Escrow",
+      "subcategory": "Escrow Fee",
+      "calc_type": "fixed",
+      "default_value": 750,
+      "description": "Standard escrow service fee for property transaction coordination",
+      "varies_by_state": false,
+      "required": true,
+      "paid_by": "buyer"
+    },
+    {
+      "id": "notarial_fees",
+      "category": "Notarial Fees",
+      "subcategory": "General",
+      "calc_type": "percent_range",
+      "default_percent_min": 0.6,
+      "default_percent_max": 1.0,
+      "description": "All notary fees for drafting and executing the public deed (Escritura Pública)",
+      "varies_by_state": true,
+      "required": true,
+      "paid_by": "buyer",
+      "notes": "Includes notary professional fees, deed preparation, and notarization"
+    },
+    {
+      "id": "acquisition_tax_isai",
+      "category": "Acquisition Taxes",
+      "subcategory": "ISAI",
+      "calc_type": "percent",
+      "description": "Impuesto Sobre Adquisición de Inmuebles - charged on purchase price or assessed value (whichever is higher). RESIDENTIAL PROPERTIES ONLY.",
+      "varies_by_state": true,
+      "required": true,
+      "paid_by": "buyer",
+      "notes": "Most significant state-level tax. Rates vary significantly by state from 0.02% to 6%. Applies to residential properties (condos, houses, residential land) only. Expats generally do not qualify for primary residence discounts or social housing subsidies."
+    },
+    {
+      "id": "registration_fee",
+      "category": "Registration Fees",
+      "subcategory": "Gastos de Registro",
+      "calc_type": "percent_range",
+      "default_percent_min": 0.2,
+      "default_percent_max": 0.5,
+      "description": "Registration of the deed with the Public Registry of Property",
+      "varies_by_state": true,
+      "required": true,
+      "paid_by": "buyer"
+    },
+    {
+      "id": "fideicomiso_setup",
+      "category": "Fideicomiso",
+      "subcategory": "Initial Setup",
+      "calc_type": "fixed_range",
+      "default_min": 1000,
+      "default_max": 2000,
+      "description": "Bank trust setup for foreigners in restricted zones (within 50km of coast or 100km of border)",
+      "varies_by_state": false,
+      "required": false,
+      "paid_by": "buyer",
+      "notes": "Only required for foreign buyers in restricted zones. Includes Foreign Investment Permit and Public Registry of Commerce registration"
+    },
+    {
+      "id": "fideicomiso_annual",
+      "category": "Fideicomiso",
+      "subcategory": "Annual Trustee Fee",
+      "calc_type": "fixed_range",
+      "default_min": 500,
+      "default_max": 800,
+      "description": "Annual bank trustee maintenance fee",
+      "varies_by_state": false,
+      "required": false,
+      "paid_by": "buyer",
+      "notes": "Ongoing annual cost for maintaining the trust (USD equivalent). Varies by bank."
+    },
+    {
+      "id": "fideicomiso_permit",
+      "category": "Fideicomiso",
+      "subcategory": "Government Permit",
+      "calc_type": "fixed",
+      "default_value": 1100,
+      "description": "One-time Mexican government fee for trust establishment permission",
+      "varies_by_state": false,
+      "required": false,
+      "paid_by": "buyer",
+      "notes": "Paid to Mexican government (USD equivalent)"
+    },
+    {
+      "id": "certificate_no_liens",
+      "category": "Certificates",
+      "subcategory": "Certificate of No Liens",
+      "calc_type": "fixed_range",
+      "default_min": 30,
+      "default_max": 40,
+      "description": "Confirms no liens or encumbrances on the property",
+      "varies_by_state": true,
+      "required": true,
+      "paid_by": "buyer",
+      "notes": "In Jalisco, issued by IRCEJ (Instituto Registral y Catastral del Estado de Jalisco)"
+    },
+    {
+      "id": "certificate_no_tax_debts",
+      "category": "Certificates",
+      "subcategory": "Certificate of No Tax Debts",
+      "calc_type": "fixed_range",
+      "default_min": 10,
+      "default_max": 20,
+      "description": "Confirms no outstanding state or municipal property taxes (Predial)",
+      "varies_by_state": true,
+      "required": true,
+      "paid_by": "buyer",
+      "notes": "Issued by state treasury (Secretaría de Hacienda)"
+    },
+    {
+      "id": "appraisal_fee",
+      "category": "Professional Services",
+      "subcategory": "Appraisal",
+      "calc_type": "percent_range",
+      "default_percent_min": 0.1,
+      "default_percent_max": 0.5,
+      "description": "Independent property valuation required for transaction",
+      "varies_by_state": false,
+      "required": true,
+      "paid_by": "buyer"
+    },
+    {
+      "id": "title_search",
+      "category": "Title Services",
+      "subcategory": "Preliminary Title Search",
+      "calc_type": "fixed_range",
+      "default_min": 0,
+      "default_max": 500,
+      "description": "Research to verify clear title and identify potential issues",
+      "varies_by_state": false,
+      "required": false,
+      "paid_by": "buyer",
+      "notes": "Optional but recommended; cost varies by property complexity"
+    },
+    {
+      "id": "title_insurance",
+      "category": "Title Services",
+      "subcategory": "Title Insurance",
+      "calc_type": "user_entered",
+      "description": "Optional insurance policy protecting against title defects",
+      "varies_by_state": false,
+      "required": false,
+      "paid_by": "buyer",
+      "notes": "Not common in Mexico but available from international providers"
+    },
+    {
+      "id": "legal_representation",
+      "category": "Professional Services",
+      "subcategory": "Legal Representation",
+      "calc_type": "user_entered",
+      "description": "Attorney fees for representing buyer throughout transaction",
+      "varies_by_state": false,
+      "required": false,
+      "paid_by": "buyer",
+      "notes": "Highly recommended for foreign buyers; fees vary by complexity"
+    },
+    {
+      "id": "translator_fees",
+      "category": "Professional Services",
+      "subcategory": "Translation Services",
+      "calc_type": "user_entered",
+      "description": "Official translation of documents for foreign buyers",
+      "varies_by_state": false,
+      "required": false,
+      "paid_by": "buyer",
+      "notes": "Required for documents not in Spanish"
+    }
+  ],
+
+  "state_rates": {
+    "Aguascalientes": {
+      "acquisition_tax_isai": {
+        "percent": 2.0,
+        "notes": "Flat 2% ISAI rate for residential properties. 50% subsidy available for homes/condos ≤ $800K MXN (expats typically do not qualify)."
+      },
+      "notarial_fees": {
+        "percent_min": 0.6,
+        "percent_max": 1.0
+      },
+      "registration_fee": {
+        "percent_min": 0.2,
+        "percent_max": 0.4
+      }
+    },
+    "Baja California": {
+      "acquisition_tax_isai": {
+        "percent": 2.0,
+        "percent_max": 6.5,
+        "notes": "Flat 2% ISAI rate for residential properties; up to 6.5% for luxury condos/land in border areas (e.g., Tijuana). Restricted zone applies (foreigners need fideicomiso)."
+      },
+      "notarial_fees": {
+        "percent_min": 0.7,
+        "percent_max": 1.2
+      },
+      "registration_fee": {
+        "percent_min": 0.3,
+        "percent_max": 0.5
+      },
+      "restricted_zone": true
+    },
+    "Baja California Sur": {
+      "acquisition_tax_isai": {
+        "percent": 3.0,
+        "notes": "Flat 3% ISAI rate for residential properties; reduced to 1.5% for social housing ≤ $1.2M MXN (Los Cabos condos) - expats typically do not qualify. Restricted zone applies."
+      },
+      "notarial_fees": {
+        "percent_min": 0.7,
+        "percent_max": 1.2
+      },
+      "registration_fee": {
+        "percent_min": 0.3,
+        "percent_max": 0.5
+      },
+      "restricted_zone": true
+    },
+    "Campeche": {
+      "acquisition_tax_isai": {
+        "percent": 2.0,
+        "notes": "Flat 2% ISAI rate for residential properties. Exemptions for rural residential land ≤ $500K MXN (expats typically do not qualify). Gulf coast state - restricted zone applies."
+      },
+      "notarial_fees": {
+        "percent_min": 0.6,
+        "percent_max": 0.9
+      },
+      "registration_fee": {
+        "percent_min": 0.2,
+        "percent_max": 0.4
+      },
+      "restricted_zone": true
+    },
+    "Chiapas": {
+      "acquisition_tax_isai": {
+        "percent": 1.0,
+        "notes": "Flat 1% ISAI rate for residential properties; one of the lowest in Mexico. Full exemptions for indigenous/rural houses ≤ $500K MXN (expats typically do not qualify). Restricted zone applies."
+      },
+      "notarial_fees": {
+        "percent_min": 0.5,
+        "percent_max": 0.8
+      },
+      "registration_fee": {
+        "percent_min": 0.2,
+        "percent_max": 0.3
+      },
+      "restricted_zone": true
+    },
+    "Chihuahua": {
+      "acquisition_tax_isai": {
+        "percent": 2.0,
+        "percent_max": 3.0,
+        "notes": "Flat 2% ISAI rate for residential properties; municipal variations up to 3% in border condos. Border state with USA - restricted zone applies."
+      },
+      "notarial_fees": {
+        "percent_min": 0.6,
+        "percent_max": 1.0
+      },
+      "registration_fee": {
+        "percent_min": 0.2,
+        "percent_max": 0.4
+      },
+      "restricted_zone": true
+    },
+    "Coahuila": {
+      "acquisition_tax_isai": {
+        "percent": 3.0,
+        "notes": "Flat 3% ISAI rate for residential properties. 50% subsidy for low-income homes/condos ≤ $1M MXN (expats typically do not qualify). Border state with Texas - restricted zone applies."
+      },
+      "notarial_fees": {
+        "percent_min": 0.6,
+        "percent_max": 1.0
+      },
+      "registration_fee": {
+        "percent_min": 0.2,
+        "percent_max": 0.4
+      },
+      "restricted_zone": true
+    },
+    "Colima": {
+      "acquisition_tax_isai": {
+        "percent": 2.0,
+        "notes": "Flat 2% ISAI rate for residential properties. Minor cuts for social interest condos (expats typically do not qualify). Pacific coast state - restricted zone applies."
+      },
+      "notarial_fees": {
+        "percent_min": 0.6,
+        "percent_max": 0.9
+      },
+      "registration_fee": {
+        "percent_min": 0.2,
+        "percent_max": 0.4
+      },
+      "restricted_zone": true
+    },
+    "Durango": {
+      "acquisition_tax_isai": {
+        "percent": 2.0,
+        "notes": "Flat 2% ISAI rate for residential properties. Full exemption for social homes/land ≤ $700K MXN (expats typically do not qualify)."
+      },
+      "notarial_fees": {
+        "percent_min": 0.6,
+        "percent_max": 0.9
+      },
+      "registration_fee": {
+        "percent_min": 0.2,
+        "percent_max": 0.4
+      }
+    },
+    "Guanajuato": {
+      "acquisition_tax_isai": {
+        "percent": 1.0,
+        "notes": "Flat 1% ISAI rate for residential properties; one of the lowest in Mexico. San Miguel de Allende located here. Up to 100% incentive for first homes/condos ≤ $800K MXN (expats typically do not qualify)."
+      },
+      "notarial_fees": {
+        "percent_min": 0.6,
+        "percent_max": 0.9
+      },
+      "registration_fee": {
+        "percent_min": 0.2,
+        "percent_max": 0.3
+      }
+    },
+    "Guerrero": {
+      "acquisition_tax_isai": {
+        "percent": 2.0,
+        "notes": "Flat 2% ISAI rate for residential properties; reduced to 1% for coastal social housing ≤ $600K MXN (expats typically do not qualify). Includes Acapulco and Ixtapa - restricted zone applies."
+      },
+      "notarial_fees": {
+        "percent_min": 0.6,
+        "percent_max": 1.0
+      },
+      "registration_fee": {
+        "percent_min": 0.2,
+        "percent_max": 0.4
+      },
+      "restricted_zone": true
+    },
+    "Hidalgo": {
+      "acquisition_tax_isai": {
+        "percent": 2.0,
+        "notes": "Flat 2% ISAI rate for residential properties. General low-value exemptions ≤ $500K MXN for residential land (expats typically do not qualify)."
+      },
+      "notarial_fees": {
+        "percent_min": 0.6,
+        "percent_max": 0.9
+      },
+      "registration_fee": {
+        "percent_min": 0.2,
+        "percent_max": 0.4
+      }
+    },
+    "Jalisco": {
+      "acquisition_tax_isai": {
+        "percent": 2.0,
+        "notes": "Flat 2% ISAI rate for residential properties (per finanzas.jalisco.gob.mx). Includes Guadalajara and Puerto Vallarta. Restricted zone applies."
+      },
+      "notarial_fees": {
+        "percent_min": 0.7,
+        "percent_max": 1.0
+      },
+      "registration_fee": {
+        "percent_min": 0.2,
+        "percent_max": 0.4
+      },
+      "restricted_zone": true,
+      "certificate_no_liens": {
+        "value_min": 30,
+        "value_max": 40,
+        "issuer": "IRCEJ (Instituto Registral y Catastral del Estado de Jalisco)"
+      }
+    },
+    "Mexico City": {
+      "acquisition_tax_isai": {
+        "percent_min": 2.0,
+        "percent_max": 6.0,
+        "notes": "Progressive ISAI rate 2%-6% for residential properties based on property value (e.g., 2% up to $1M MXN for houses/condos, tiered by value). Applies to urban land. Source: finanzas.cdmx.gob.mx"
+      },
+      "notarial_fees": {
+        "percent_min": 0.8,
+        "percent_max": 1.5
+      },
+      "registration_fee": {
+        "percent_min": 0.3,
+        "percent_max": 0.5
+      }
+    },
+    "Estado de México": {
+      "acquisition_tax_isai": {
+        "percent_min": 0.02,
+        "percent_max": 4.5,
+        "notes": "Progressive ISAI rate 0.02%-4.5% for residential properties, varies by municipality and value (e.g., 2% average for mid-range houses); thresholds up to 4.7%. State of Mexico (surrounding Mexico City)."
+      },
+      "notarial_fees": {
+        "percent_min": 0.7,
+        "percent_max": 1.0
+      },
+      "registration_fee": {
+        "percent_min": 0.2,
+        "percent_max": 0.4
+      }
+    },
+    "Michoacán": {
+      "acquisition_tax_isai": {
+        "percent": 2.0,
+        "notes": "Flat 2% ISAI rate for residential properties. 50% subsidy for social housing/land ≤ $700K MXN (expats typically do not qualify). Includes coastal areas - restricted zone applies."
+      },
+      "notarial_fees": {
+        "percent_min": 0.6,
+        "percent_max": 0.9
+      },
+      "registration_fee": {
+        "percent_min": 0.2,
+        "percent_max": 0.4
+      },
+      "restricted_zone": true
+    },
+    "Morelos": {
+      "acquisition_tax_isai": {
+        "percent": 2.0,
+        "notes": "Flat 2% ISAI rate for residential properties. Exemptions mainly for family transfers of condos/houses (expats typically do not qualify)."
+      },
+      "notarial_fees": {
+        "percent_min": 0.6,
+        "percent_max": 0.9
+      },
+      "registration_fee": {
+        "percent_min": 0.2,
+        "percent_max": 0.4
+      }
+    },
+    "Nayarit": {
+      "acquisition_tax_isai": {
+        "percent": 2.0,
+        "notes": "Flat 2% ISAI rate for residential properties; reduced to 1% in tourist zones (Riviera Nayarit condos) ≤ $900K MXN (expats typically do not qualify for discount). Includes Riviera Nayarit and Sayulita - restricted zone applies."
+      },
+      "notarial_fees": {
+        "percent_min": 0.6,
+        "percent_max": 1.0
+      },
+      "registration_fee": {
+        "percent_min": 0.2,
+        "percent_max": 0.4
+      },
+      "restricted_zone": true
+    },
+    "Nuevo León": {
+      "acquisition_tax_isai": {
+        "percent": 3.0,
+        "notes": "Flat 3% ISAI rate for residential properties; includes Monterrey. Full subsidy if ≤ $619K MXN (no prior property), 50% subsidy up to $1.24M MXN for houses/condos (expats typically do not qualify)."
+      },
+      "notarial_fees": {
+        "percent_min": 0.7,
+        "percent_max": 1.1
+      },
+      "registration_fee": {
+        "percent_min": 0.3,
+        "percent_max": 0.5
+      }
+    },
+    "Oaxaca": {
+      "acquisition_tax_isai": {
+        "percent": 2.0,
+        "notes": "Flat 2% ISAI rate for residential properties. Full exemptions for community/indigenous properties ≤ $500K MXN (expats typically do not qualify). Includes Pacific coast areas - restricted zone applies."
+      },
+      "notarial_fees": {
+        "percent_min": 0.6,
+        "percent_max": 0.9
+      },
+      "registration_fee": {
+        "percent_min": 0.2,
+        "percent_max": 0.4
+      },
+      "restricted_zone": true
+    },
+    "Puebla": {
+      "acquisition_tax_isai": {
+        "percent": 1.0,
+        "notes": "Flat 1% ISAI rate for residential properties; one of the lowest in Mexico. 50% reduction for low-income first homes/condos ≤ $600K MXN (expats typically do not qualify)."
+      },
+      "notarial_fees": {
+        "percent_min": 0.6,
+        "percent_max": 0.9
+      },
+      "registration_fee": {
+        "percent_min": 0.2,
+        "percent_max": 0.3
+      }
+    },
+    "Querétaro": {
+      "acquisition_tax_isai": {
+        "percent": 2.0,
+        "percent_max": 6.5,
+        "notes": "Flat 2% ISAI rate for residential properties; up to 6.5% for high-value properties. 75% subsidies for first homes ≤ $900K MXN (expats typically do not qualify)."
+      },
+      "notarial_fees": {
+        "percent_min": 0.6,
+        "percent_max": 1.0
+      },
+      "registration_fee": {
+        "percent_min": 0.2,
+        "percent_max": 0.4
+      }
+    },
+    "Quintana Roo": {
+      "acquisition_tax_isai": {
+        "percent": 3.0,
+        "notes": "Flat 3% ISAI rate for residential properties (per 2025 ley for tourist zones); 2% for social housing ≤ $1M MXN (expats typically do not qualify). Includes Cancún, Playa del Carmen, Tulum condos/land. Restricted zone applies."
+      },
+      "notarial_fees": {
+        "percent_min": 0.6,
+        "percent_max": 0.9
+      },
+      "registration_fee": {
+        "percent_min": 0.3,
+        "percent_max": 0.5
+      },
+      "restricted_zone": true,
+      "tourist_tax": {
+        "name": "VISITAX",
+        "amount": 283,
+        "currency": "MXN",
+        "notes": "One-time tourist tax for visitors (not property buyers)"
+      }
+    },
+    "San Luis Potosí": {
+      "acquisition_tax_isai": {
+        "percent": 2.0,
+        "notes": "Flat 2% ISAI rate for residential properties. General social housing exemptions (expats typically do not qualify)."
+      },
+      "notarial_fees": {
+        "percent_min": 0.6,
+        "percent_max": 0.9
+      },
+      "registration_fee": {
+        "percent_min": 0.2,
+        "percent_max": 0.4
+      }
+    },
+    "Sinaloa": {
+      "acquisition_tax_isai": {
+        "percent": 2.0,
+        "notes": "Flat 2% ISAI rate for residential properties. 50% subsidy for first-time buyers of homes/condos ≤ $800K MXN (expats typically do not qualify). Includes Mazatlán - restricted zone applies."
+      },
+      "notarial_fees": {
+        "percent_min": 0.6,
+        "percent_max": 1.0
+      },
+      "registration_fee": {
+        "percent_min": 0.2,
+        "percent_max": 0.4
+      },
+      "restricted_zone": true
+    },
+    "Sonora": {
+      "acquisition_tax_isai": {
+        "percent": 2.0,
+        "notes": "Flat 2% ISAI rate for residential properties. Full exemption in border zones ≤ $1M MXN for residential land (expats typically do not qualify). Includes Puerto Peñasco (Rocky Point) - border with Arizona, restricted zone applies."
+      },
+      "notarial_fees": {
+        "percent_min": 0.6,
+        "percent_max": 1.0
+      },
+      "registration_fee": {
+        "percent_min": 0.2,
+        "percent_max": 0.4
+      },
+      "restricted_zone": true
+    },
+    "Tabasco": {
+      "acquisition_tax_isai": {
+        "percent": 2.0,
+        "notes": "Flat 2% ISAI rate for residential properties. Limited to low-value/family transfers of houses (expats typically do not qualify). Gulf coast state - restricted zone applies."
+      },
+      "notarial_fees": {
+        "percent_min": 0.6,
+        "percent_max": 0.9
+      },
+      "registration_fee": {
+        "percent_min": 0.2,
+        "percent_max": 0.4
+      },
+      "restricted_zone": true
+    },
+    "Tamaulipas": {
+      "acquisition_tax_isai": {
+        "percent": 3.0,
+        "notes": "Flat 3% ISAI rate for residential properties; reduced to 2% for border first homes/condos ≤ $900K MXN (expats typically do not qualify). Border state with Texas - restricted zone applies."
+      },
+      "notarial_fees": {
+        "percent_min": 0.6,
+        "percent_max": 1.0
+      },
+      "registration_fee": {
+        "percent_min": 0.2,
+        "percent_max": 0.4
+      },
+      "restricted_zone": true
+    },
+    "Tlaxcala": {
+      "acquisition_tax_isai": {
+        "percent": 2.0,
+        "notes": "Flat 2% ISAI rate for residential properties. Minor social interest reductions for condos (expats typically do not qualify). Smallest state in Mexico."
+      },
+      "notarial_fees": {
+        "percent_min": 0.6,
+        "percent_max": 0.9
+      },
+      "registration_fee": {
+        "percent_min": 0.2,
+        "percent_max": 0.3
+      }
+    },
+    "Veracruz": {
+      "acquisition_tax_isai": {
+        "percent": 1.0,
+        "notes": "Flat 1% ISAI rate for residential properties; one of the lowest in Mexico. 50% subsidy for low-income first homes/land ≤ $500K MXN (expats typically do not qualify). Gulf coast state - restricted zone applies."
+      },
+      "notarial_fees": {
+        "percent_min": 0.6,
+        "percent_max": 0.9
+      },
+      "registration_fee": {
+        "percent_min": 0.2,
+        "percent_max": 0.4
+      },
+      "restricted_zone": true
+    },
+    "Yucatán": {
+      "acquisition_tax_isai": {
+        "percent": 0.02,
+        "notes": "Minimal flat 0.02% ISAI rate for residential properties - lowest in Mexico (per merida.gob.mx). Up to 50% subsidy in Mérida for first buyers ≤ $800K MXN (expats typically do not qualify). Includes Mérida - restricted zone applies."
+      },
+      "notarial_fees": {
+        "percent_min": 0.6,
+        "percent_max": 0.9
+      },
+      "registration_fee": {
+        "percent_min": 0.2,
+        "percent_max": 0.4
+      },
+      "restricted_zone": true
+    },
+    "Zacatecas": {
+      "acquisition_tax_isai": {
+        "percent": 2.0,
+        "notes": "Flat 2% ISAI rate for residential properties. 50% subsidy for rural first homes/land ≤ $600K MXN (expats typically do not qualify)."
+      },
+      "notarial_fees": {
+        "percent_min": 0.6,
+        "percent_max": 0.9
+      },
+      "registration_fee": {
+        "percent_min": 0.2,
+        "percent_max": 0.4
+      }
+    }
+  },
+
+  "calculation_instructions": {
+    "overview": "How to calculate total closing costs using this database",
+    "steps": [
+      "1. Get the purchase price from the user",
+      "2. Get the state where the property is located",
+      "3. For each fee in fee_definitions, check if varies_by_state is true",
+      "4. If varies_by_state is true, look up the state-specific values in state_rates[state_name]",
+      "5. If no state-specific value exists, use the default values from fee_definitions",
+      "6. Apply calculations based on calc_type:",
+      "   - fixed: Use the exact value",
+      "   - fixed_range: Show the range (min to max) or ask user preference",
+      "   - percent: Multiply the percentage by purchase price",
+      "   - percent_range: Show range by multiplying min and max percentages by purchase price",
+      "   - user_entered: Prompt user to provide the amount",
+      "7. Sum all applicable fees to get total closing costs",
+      "8. Display breakdown by category"
+    ],
+    "important_notes": [
+      "ALL ISAI RATES APPLY TO RESIDENTIAL PROPERTIES ONLY (condos, houses, residential land). Commercial, agricultural, and other property types may have different rates.",
+      "ISAI is charged on the HIGHER of purchase price or assessed (cadastral) value",
+      "Assessed values in Mexico are typically 60-70% of market value",
+      "Fideicomiso fees only apply to foreign buyers in restricted zones (50km from coast, 100km from border)",
+      "Expats generally DO NOT QUALIFY for primary residence discounts or social housing subsidies - these are typically for Mexican citizens only",
+      "Annual Predial (property tax) is separate and typically 0.1-0.3% of assessed value per year",
+      "Some municipalities offer early payment discounts on Predial (6-10% if paid Jan-Feb)",
+      "Capital gains tax on sale is typically 25% of gross or 35% of net gain",
+      "All percentages in this database should be divided by 100 (e.g., 2.0 means 2%, not 200%)"
+    ]
+  },
+
+  "glossary": {
+    "ISAI": "Impuesto Sobre Adquisición de Inmuebles - Property Acquisition Tax",
+    "Escritura Pública": "Public deed of property ownership",
+    "Fideicomiso": "Bank trust required for foreign buyers in restricted zones",
+    "Predial": "Annual municipal property tax",
+    "Valor Catastral": "Assessed/cadastral value (typically 60-70% of market value)",
+    "Gastos de Registro": "Registration fees for Public Registry of Property",
+    "Restricted Zone": "Areas within 50km of coastline or 100km of international border where foreigners cannot hold direct title",
+    "RFC": "Registro Federal de Contribuyentes - Mexican tax ID number"
+  }
+}
