@@ -15,7 +15,7 @@
       "default_value": 750,
       "description": "Standard escrow service fee for property transaction coordination",
       "varies_by_state": false,
-      "required": true,
+      "required": false,
       "paid_by": "buyer"
     },
     {
