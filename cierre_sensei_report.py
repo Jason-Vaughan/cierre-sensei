@@ -1,28 +1,35 @@
 from datetime import date
-
+from typing import Dict, List, Tuple, Optional
 from PIL import Image, ImageDraw, ImageFont
 
 
-def _load_font(size: int, bold: bool = False) -> ImageFont.FreeTypeFont:
+def _load_font(size: int, bold: bool = False, italic: bool = False) -> ImageFont.FreeTypeFont:
     """
     Try to load a reasonable TrueType font; fall back to the default bitmap font.
     """
     font_candidates = []
-    if bold:
-        font_candidates.extend(
-            [
-                "DejaVuSans-Bold.ttf",
-                "Arial Bold.ttf",
-                "Arial-Bold.ttf",
-            ]
-        )
+
+    if bold and italic:
+        font_candidates.extend([
+            "DejaVuSans-BoldOblique.ttf",
+            "Arial Bold Italic.ttf",
+        ])
+    elif bold:
+        font_candidates.extend([
+            "DejaVuSans-Bold.ttf",
+            "Arial Bold.ttf",
+            "Arial-Bold.ttf",
+        ])
+    elif italic:
+        font_candidates.extend([
+            "DejaVuSans-Oblique.ttf",
+            "Arial Italic.ttf",
+        ])
     else:
-        font_candidates.extend(
-            [
-                "DejaVuSans.ttf",
-                "Arial.ttf",
-            ]
-        )
+        font_candidates.extend([
+            "DejaVuSans.ttf",
+            "Arial.ttf",
+        ])
 
     for name in font_candidates:
         try:
@@ -35,238 +42,173 @@ def _load_font(size: int, bold: bool = False) -> ImageFont.FreeTypeFont:
 
 
 def generate_cierre_sensei_png(
-    purchase_summary: dict,
-    addons: list,
-    line_items: list,
+    purchase_summary: Dict[str, str],
+    addons: List[str],
+    line_items: List[Tuple[str, float, float, str]],
     est_min: float,
     est_max: float,
     eff_min_pct: float,
     eff_max_pct: float,
     filename: str = "cierre_sensei_report.png",
-    prepared_date: str | None = None,
+    prepared_date: Optional[str] = None,
+    theme: str = "mockup",
 ) -> Image.Image:
     """
-    Generate a printable PNG report for Cierre Sensei.
-
-    purchase_summary: dict with keys like:
-        {
-            "Purchase Price": "$500,000 USD",
-            "Type": "Condo",
-            "State": "Quintana Roo",
-            "Restricted Zone": "Yes",
-            "Foreign Buyer": "Yes",
-        }
-
-    addons: list of strings, e.g. ["Title Insurance", "Home Inspection", ...]
-
-    line_items: list of tuples:
-        [
-            ("ISAI 3%", 15000, 15000, "% of purchase price"),
-            ("Notarial Fees", 3000, 4500, "Range"),
-            ...
-        ]
-
-    est_min / est_max: numeric totals for the estimated range.
-    eff_min_pct / eff_max_pct: effective % of purchase price.
-    filename: output PNG filename.
-    prepared_date: optional string like "12/1/2025"; if None, today is used.
+    Generate a PNG report matching the mockup design.
+    
+    Args:
+        purchase_summary: key/value strings for the summary.
+        addons: list of add-on labels.
+        line_items: (description, min, max, notes) tuples.
+        est_min / est_max: total estimated range.
+        eff_min_pct / eff_max_pct: effective percentage range.
+        filename: output PNG filename.
+        prepared_date: optional date string (e.g. '12/4/2025').
+        theme: 'mockup' (matches report_mockup_cursor.png design).
+    
+    Returns:
+        PIL Image object.
     """
-
-    # --- Canvas setup (US Letter @ ~300dpi) ---
-    WIDTH, HEIGHT = 2550, 3300          # 8.5" x 11" at 300 dpi
-    margin_x = 260                      # nice whitespace at edges
-    margin_y = 260
-
-    img = Image.new("RGB", (WIDTH, HEIGHT), "white")
+    
+    # Canvas setup - matching mockup dimensions
+    WIDTH, HEIGHT = 1800, 2400
+    margin_x = 120
+    margin_y = 100
+    
+    # Dark blue-grey background (RGB: 30, 50, 80)
+    bg_color = (30, 50, 80)
+    img = Image.new("RGB", (WIDTH, HEIGHT), bg_color)
     draw = ImageDraw.Draw(img)
-
-    # --- Fonts ---
-    title_font = _load_font(80, bold=True)
-    subtitle_font = _load_font(44, bold=False)
-    normal_font = _load_font(34)
-    small_bold = _load_font(30, bold=True)
-    totals_label_font = _load_font(40, bold=True)
-    totals_value_font = _load_font(40, bold=False)
-
-    # --- Header ---
-    y = margin_y
-    title_text = "Cierre Sensei"
+    
+    # Color scheme matching mockup
+    light_blue = (100, 150, 255)  # Light blue for titles
+    white = (255, 255, 255)       # White for body text
+    separator_color = (150, 180, 220)  # Light grey-blue for separator lines
+    
+    # Fonts
+    title_font = _load_font(72, bold=True)
+    section_font = _load_font(42, bold=True)
+    normal_font = _load_font(32)
+    small_font = _load_font(28)
+    totals_font = _load_font(38, bold=True)
+    
+    # Prepare date
     if prepared_date is None:
         prepared_date = date.today().strftime("%-m/%-d/%Y")
-    prepared_text = f"Prepared: {prepared_date}"
-
-    draw.text((margin_x, y), title_text, font=title_font, fill="black")
-
-    # Right-aligned prepared date
-    bbox = draw.textbbox((0, 0), prepared_text, font=small_bold)
-    date_w = bbox[2] - bbox[0]
-    draw.text(
-        (WIDTH - margin_x - date_w, y + 10),
-        prepared_text,
-        font=small_bold,
-        fill="black",
-    )
-
-    y += title_font.size + 40
-    draw.text(
-        (margin_x, y),
-        "Closing Costs Estimation",
-        font=subtitle_font,
-        fill="black",
-    )
-    y += subtitle_font.size + 40
-
-    # --- Add-ons (left) ---
-    ax = margin_x
-    ay = y
-    draw.text((ax, ay), "Addons:", font=normal_font, fill="black")
-    ay += normal_font.size + 12
-
-    for item in addons:
-        draw.text((ax + 40, ay), f"• {item}", font=normal_font, fill="black")
-        ay += normal_font.size + 10
-
-    addons_bottom = ay
-
-    # --- Purchase summary box (right) ---
-    box_width = 860
-    bx = WIDTH - margin_x - box_width
-    by = y
-
-    lines = [f"{k}:  {v}" for k, v in purchase_summary.items()]
-    line_height = normal_font.size + 8
-    box_height = line_height * len(lines) + 26
-
-    draw.rectangle(
-        [bx, by, bx + box_width, by + box_height],
-        outline="black",
-        width=3,
-    )
-
-    ty = by + 14
-    for line in lines:
-        draw.text((bx + 18, ty), line, font=normal_font, fill="black")
-        ty += line_height
-
-    summary_bottom = by + box_height
-
-    # Move y below the lower of the two blocks
-    y = max(addons_bottom, summary_bottom) + 90
-
-    # --- Table header ---
-    desc_x = margin_x
-
-    # Columns nudged slightly left and tightened so Notes stays on-page
-    min_x = desc_x + 900      # was 920
-    max_x = min_x + 420       # was 520
-    notes_x = max_x + 420     # was 520
-
-    header_y = y
-    draw.text(
-        (desc_x, header_y),
-        "Description",
-        font=small_bold,
-        fill="black",
-    )
-    draw.text(
-        (min_x, header_y),
-        "Min Amount",
-        font=small_bold,
-        fill="black",
-    )
-    draw.text(
-        (max_x, header_y),
-        "Max Amount",
-        font=small_bold,
-        fill="black",
-    )
-    draw.text(
-        (notes_x, header_y),
-        "Notes",
-        font=small_bold,
-        fill="black",
-    )
-
-    y += small_bold.size + 12
-    draw.line(
-        (margin_x, y, WIDTH - margin_x, y),
-        fill="black",
-        width=2,
-    )
-    y += 26
-
-    # --- Table rows ---
+    
+    y = margin_y
+    
+    # ================================================================
+    # HEADER - Title
+    # ================================================================
+    title_text = "Estimated Closing Costs (MX Real Estate)"
+    title_bbox = draw.textbbox((0, 0), title_text, font=title_font)
+    title_w = title_bbox[2] - title_bbox[0]
+    title_x = (WIDTH - title_w) // 2
+    
+    draw.text((title_x, y), title_text, font=title_font, fill=light_blue)
+    y += title_font.size + 60
+    
+    # Separator line
+    draw.line((margin_x, y, WIDTH - margin_x, y), fill=separator_color, width=2)
+    y += 40
+    
+    # ================================================================
+    # PURCHASE SUMMARY
+    # ================================================================
+    for key, value in purchase_summary.items():
+        text = f"{key}: {value}"
+        draw.text((margin_x, y), text, font=normal_font, fill=white)
+        y += normal_font.size + 12
+    
+    y += 30
+    draw.line((margin_x, y, WIDTH - margin_x, y), fill=separator_color, width=2)
+    y += 40
+    
+    # ================================================================
+    # FEE BREAKDOWN Section
+    # ================================================================
+    section_title = "Fee Breakdown:"
+    draw.text((margin_x, y), section_title, font=section_font, fill=light_blue)
+    y += section_font.size + 20
+    
     def fmt_currency(val: float) -> str:
         return "${:,.0f}".format(val)
-
-    row_height = normal_font.size + 18
-
+    
     for desc, min_v, max_v, notes in line_items:
-        # description
-        draw.text((desc_x, y), desc, font=normal_font, fill="black")
-
-        # min / max
-        draw.text(
-            (min_x, y),
-            fmt_currency(min_v),
-            font=normal_font,
-            fill="black",
-        )
-        draw.text(
-            (max_x, y),
-            fmt_currency(max_v),
-            font=normal_font,
-            fill="black",
-        )
-
-        # notes (kept as single-line; your notes are short)
+        # Description
+        draw.text((margin_x, y), desc, font=normal_font, fill=white)
+        
+        # Amount range
+        if min_v == max_v:
+            amount_text = fmt_currency(min_v)
+        else:
+            amount_text = f"{fmt_currency(min_v)} - {fmt_currency(max_v)}"
+        
+        # Position amount (right-aligned would be better, but keeping simple for now)
+        amount_x = margin_x + 500
+        draw.text((amount_x, y), amount_text, font=normal_font, fill=white)
+        
+        # Notes if present
         if notes:
-            draw.text((notes_x, y), notes, font=normal_font, fill="black")
-
-        y += row_height
-
-    # --- Totals section (dropped lower, larger text, better spacing) ---
-    y += row_height * 8  # push totals further down from the table
-
-    VALUE_OFFSET = 520  # horizontal spacing between label and value
-
+            notes_x = margin_x + 900
+            draw.text((notes_x, y), f"({notes})", font=small_font, fill=white)
+        
+        y += normal_font.size + 16
+    
+    y += 30
+    draw.line((margin_x, y, WIDTH - margin_x, y), fill=separator_color, width=2)
+    y += 40
+    
+    # ================================================================
+    # ESTIMATED TOTALS
+    # ================================================================
     # Estimated Range
-    draw.text(
-        (margin_x, y),
-        "Estimated Range:",
-        font=totals_label_font,
-        fill="black",
-    )
-    draw.text(
-        (margin_x + VALUE_OFFSET, y),
-        f"{fmt_currency(est_min)} – {fmt_currency(est_max)}",
-        font=totals_value_font,
-        fill="black",
-    )
-
+    range_text = f"Estimated Range: {fmt_currency(est_min)} - {fmt_currency(est_max)}"
+    draw.text((margin_x, y), range_text, font=totals_font, fill=white)
+    y += totals_font.size + 20
+    
     # Effective Rate
-    y += totals_value_font.size + 20
-    draw.text(
-        (margin_x, y),
-        "Effective Rate %:",
-        font=totals_label_font,
-        fill="black",
-    )
-    draw.text(
-        (margin_x + VALUE_OFFSET, y),
-        f"{eff_min_pct:.1f}% – {eff_max_pct:.1f}%",
-        font=totals_value_font,
-        fill="black",
-    )
-
-    # Save and return image
+    rate_text = f"Effective Rate: {eff_min_pct:.1f}% - {eff_max_pct:.1f}%"
+    draw.text((margin_x, y), rate_text, font=totals_font, fill=white)
+    y += totals_font.size + 30
+    
+    draw.line((margin_x, y, WIDTH - margin_x, y), fill=separator_color, width=2)
+    y += 40
+    
+    # ================================================================
+    # ADD-ONS INCLUDED Section
+    # ================================================================
+    section_title = "Add-Ons Included:"
+    draw.text((margin_x, y), section_title, font=section_font, fill=light_blue)
+    y += section_font.size + 20
+    
+    for item in addons:
+        draw.text((margin_x + 40, y), f"- {item}", font=normal_font, fill=white)
+        y += normal_font.size + 12
+    
+    y += 30
+    
+    # ================================================================
+    # FOOTER
+    # ================================================================
+    footer_y = HEIGHT - 80
+    
+    # Prepared date
+    prepared_text = f"Prepared: {prepared_date}"
+    draw.text((margin_x, footer_y), prepared_text, font=small_font, fill=white)
+    
+    # Disclaimer
+    disclaimer = "Informational only; confirm with local professionals."
+    disc_bbox = draw.textbbox((0, 0), disclaimer, font=small_font)
+    disc_w = disc_bbox[2] - disc_bbox[0]
+    disc_x = WIDTH - margin_x - disc_w
+    draw.text((disc_x, footer_y), disclaimer, font=small_font, fill=white)
+    
     img.save(filename)
     return img
 
 
-# --------------------------------------------------------------------
-# Example stand-alone usage (matches your layout).
-# --------------------------------------------------------------------
 if __name__ == "__main__":
     purchase_summary_example = {
         "Purchase Price": "$500,000 USD",
@@ -309,9 +251,9 @@ if __name__ == "__main__":
         est_max=34960,
         eff_min_pct=5.8,
         eff_max_pct=7.0,
-        filename="cierre_sensei_report.png",
-        prepared_date="12/1/2025",
+        filename="cierre_sensei_report_mockup.png",
+        prepared_date="12/4/2025",
+        theme="mockup",
     )
-
-    print("Saved cierre_sensei_report.png")
+    print("Saved cierre_sensei_report_mockup.png")
 

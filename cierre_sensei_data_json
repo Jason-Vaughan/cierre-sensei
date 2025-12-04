@@ -1,10 +1,10 @@
 {
   "metadata": {
     "version": "2.2.0",
-    "last_updated": "2025-12-01",
+    "last_updated": "2025-12-03",
     "default_currency": "MXN",
     "description": "Comprehensive closing costs database for Mexican real estate transactions including all 32 states - RESIDENTIAL PROPERTIES ONLY",
-    "notes": "ISAI rates apply to RESIDENTIAL properties only (condos, houses, residential land) - NOT commercial, agricultural, or other property types. Rates and fees vary by state and municipality. Source: December 2025 state finance laws via SAT/SHCP. Always verify with local authorities."
+    "notes": "ISAI rates apply to RESIDENTIAL properties only (condos, houses, residential land) - NOT commercial, agricultural, or other property types. Rates and fees vary by state and municipality. Source: December 2025 state finance laws via SAT/SHCP. Always verify with local authorities. Python renderer restored to match report_mockup_cursor.png design (v1.3.0) - dark blue background with light blue/white text, proper section layout matching mockup design."
   },
   "fee_definitions": [
     {
@@ -25,7 +25,7 @@
       "calc_type": "percent_range",
       "default_percent_min": 0.6,
       "default_percent_max": 1.0,
-      "description": "All notary fees for drafting and executing the public deed (Escritura P\u00fablica)",
+      "description": "All notary fees for drafting and executing the public deed (Escritura Pública)",
       "varies_by_state": true,
       "required": true,
       "paid_by": "buyer",
@@ -36,7 +36,7 @@
       "category": "Acquisition Taxes",
       "subcategory": "ISAI",
       "calc_type": "percent",
-      "description": "Impuesto Sobre Adquisici\u00f3n de Inmuebles - charged on purchase price or assessed value (whichever is higher). RESIDENTIAL PROPERTIES ONLY.",
+      "description": "Impuesto Sobre Adquisición de Inmuebles - charged on purchase price or assessed value (whichever is higher). RESIDENTIAL PROPERTIES ONLY.",
       "varies_by_state": true,
       "required": true,
       "paid_by": "buyer",
@@ -116,7 +116,7 @@
       "varies_by_state": true,
       "required": true,
       "paid_by": "buyer",
-      "notes": "Issued by state treasury (Secretar\u00eda de Hacienda)"
+      "notes": "Issued by state treasury (Secretaría de Hacienda)"
     },
     {
       "id": "appraisal_fee",
@@ -226,7 +226,7 @@
     "Aguascalientes": {
       "acquisition_tax_isai": {
         "percent": 2.0,
-        "notes": "Flat 2% ISAI rate for residential properties. 50% subsidy available for homes/condos \u2264 $800K MXN (expats typically do not qualify)."
+        "notes": "Flat 2% ISAI rate for residential properties. 50% subsidy available for homes/condos ≤ $800K MXN (expats typically do not qualify)."
       },
       "notarial_fees": {
         "percent_min": 0.6,
@@ -256,7 +256,7 @@
     "Baja California Sur": {
       "acquisition_tax_isai": {
         "percent": 3.0,
-        "notes": "Flat 3% ISAI rate for residential properties; reduced to 1.5% for social housing \u2264 $1.2M MXN (Los Cabos condos) - expats typically do not qualify. Restricted zone applies."
+        "notes": "Flat 3% ISAI rate for residential properties; reduced to 1.5% for social housing ≤ $1.2M MXN (Los Cabos condos) - expats typically do not qualify. Restricted zone applies."
       },
       "notarial_fees": {
         "percent_min": 0.7,
@@ -271,7 +271,7 @@
     "Campeche": {
       "acquisition_tax_isai": {
         "percent": 2.0,
-        "notes": "Flat 2% ISAI rate for residential properties. Exemptions for rural residential land \u2264 $500K MXN (expats typically do not qualify). Gulf coast state - restricted zone applies."
+        "notes": "Flat 2% ISAI rate for residential properties. Exemptions for rural residential land ≤ $500K MXN (expats typically do not qualify). Gulf coast state - restricted zone applies."
       },
       "notarial_fees": {
         "percent_min": 0.6,
@@ -286,7 +286,7 @@
     "Chiapas": {
       "acquisition_tax_isai": {
         "percent": 1.0,
-        "notes": "Flat 1% ISAI rate for residential properties; one of the lowest in Mexico. Full exemptions for indigenous/rural houses \u2264 $500K MXN (expats typically do not qualify). Restricted zone applies."
+        "notes": "Flat 1% ISAI rate for residential properties; one of the lowest in Mexico. Full exemptions for indigenous/rural houses ≤ $500K MXN (expats typically do not qualify). Restricted zone applies."
       },
       "notarial_fees": {
         "percent_min": 0.5,
@@ -317,7 +317,7 @@
     "Coahuila": {
       "acquisition_tax_isai": {
         "percent": 3.0,
-        "notes": "Flat 3% ISAI rate for residential properties. 50% subsidy for low-income homes/condos \u2264 $1M MXN (expats typically do not qualify). Border state with Texas - restricted zone applies."
+        "notes": "Flat 3% ISAI rate for residential properties. 50% subsidy for low-income homes/condos ≤ $1M MXN (expats typically do not qualify). Border state with Texas - restricted zone applies."
       },
       "notarial_fees": {
         "percent_min": 0.6,
@@ -347,7 +347,7 @@
     "Durango": {
       "acquisition_tax_isai": {
         "percent": 2.0,
-        "notes": "Flat 2% ISAI rate for residential properties. Full exemption for social homes/land \u2264 $700K MXN (expats typically do not qualify)."
+        "notes": "Flat 2% ISAI rate for residential properties. Full exemption for social homes/land ≤ $700K MXN (expats typically do not qualify)."
       },
       "notarial_fees": {
         "percent_min": 0.6,
@@ -361,7 +361,7 @@
     "Guanajuato": {
       "acquisition_tax_isai": {
         "percent": 1.0,
-        "notes": "Flat 1% ISAI rate for residential properties; one of the lowest in Mexico. San Miguel de Allende located here. Up to 100% incentive for first homes/condos \u2264 $800K MXN (expats typically do not qualify)."
+        "notes": "Flat 1% ISAI rate for residential properties; one of the lowest in Mexico. San Miguel de Allende located here. Up to 100% incentive for first homes/condos ≤ $800K MXN (expats typically do not qualify)."
       },
       "notarial_fees": {
         "percent_min": 0.6,
@@ -375,7 +375,7 @@
     "Guerrero": {
       "acquisition_tax_isai": {
         "percent": 2.0,
-        "notes": "Flat 2% ISAI rate for residential properties; reduced to 1% for coastal social housing \u2264 $600K MXN (expats typically do not qualify). Includes Acapulco and Ixtapa - restricted zone applies."
+        "notes": "Flat 2% ISAI rate for residential properties; reduced to 1% for coastal social housing ≤ $600K MXN (expats typically do not qualify). Includes Acapulco and Ixtapa - restricted zone applies."
       },
       "notarial_fees": {
         "percent_min": 0.6,
@@ -390,7 +390,7 @@
     "Hidalgo": {
       "acquisition_tax_isai": {
         "percent": 2.0,
-        "notes": "Flat 2% ISAI rate for residential properties. General low-value exemptions \u2264 $500K MXN for residential land (expats typically do not qualify)."
+        "notes": "Flat 2% ISAI rate for residential properties. General low-value exemptions ≤ $500K MXN for residential land (expats typically do not qualify)."
       },
       "notarial_fees": {
         "percent_min": 0.6,
@@ -436,7 +436,7 @@
         "percent_max": 0.5
       }
     },
-    "Estado de M\u00e9xico": {
+    "Estado de México": {
       "acquisition_tax_isai": {
         "percent_min": 0.02,
         "percent_max": 4.5,
@@ -451,10 +451,10 @@
         "percent_max": 0.4
       }
     },
-    "Michoac\u00e1n": {
+    "Michoacán": {
       "acquisition_tax_isai": {
         "percent": 2.0,
-        "notes": "Flat 2% ISAI rate for residential properties. 50% subsidy for social housing/land \u2264 $700K MXN (expats typically do not qualify). Includes coastal areas - restricted zone applies."
+        "notes": "Flat 2% ISAI rate for residential properties. 50% subsidy for social housing/land ≤ $700K MXN (expats typically do not qualify). Includes coastal areas - restricted zone applies."
       },
       "notarial_fees": {
         "percent_min": 0.6,
@@ -483,7 +483,7 @@
     "Nayarit": {
       "acquisition_tax_isai": {
         "percent": 2.0,
-        "notes": "Flat 2% ISAI rate for residential properties; reduced to 1% in tourist zones (Riviera Nayarit condos) \u2264 $900K MXN (expats typically do not qualify for discount). Includes Riviera Nayarit and Sayulita - restricted zone applies."
+        "notes": "Flat 2% ISAI rate for residential properties; reduced to 1% in tourist zones (Riviera Nayarit condos) ≤ $900K MXN (expats typically do not qualify for discount). Includes Riviera Nayarit and Sayulita - restricted zone applies."
       },
       "notarial_fees": {
         "percent_min": 0.6,
@@ -495,10 +495,10 @@
       },
       "restricted_zone": true
     },
-    "Nuevo Le\u00f3n": {
+    "Nuevo León": {
       "acquisition_tax_isai": {
         "percent": 3.0,
-        "notes": "Flat 3% ISAI rate for residential properties; includes Monterrey. Full subsidy if \u2264 $619K MXN (no prior property), 50% subsidy up to $1.24M MXN for houses/condos (expats typically do not qualify)."
+        "notes": "Flat 3% ISAI rate for residential properties; includes Monterrey. Full subsidy if ≤ $619K MXN (no prior property), 50% subsidy up to $1.24M MXN for houses/condos (expats typically do not qualify)."
       },
       "notarial_fees": {
         "percent_min": 0.7,
@@ -512,7 +512,7 @@
     "Oaxaca": {
       "acquisition_tax_isai": {
         "percent": 2.0,
-        "notes": "Flat 2% ISAI rate for residential properties. Full exemptions for community/indigenous properties \u2264 $500K MXN (expats typically do not qualify). Includes Pacific coast areas - restricted zone applies."
+        "notes": "Flat 2% ISAI rate for residential properties. Full exemptions for community/indigenous properties ≤ $500K MXN (expats typically do not qualify). Includes Pacific coast areas - restricted zone applies."
       },
       "notarial_fees": {
         "percent_min": 0.6,
@@ -527,7 +527,7 @@
     "Puebla": {
       "acquisition_tax_isai": {
         "percent": 1.0,
-        "notes": "Flat 1% ISAI rate for residential properties; one of the lowest in Mexico. 50% reduction for low-income first homes/condos \u2264 $600K MXN (expats typically do not qualify)."
+        "notes": "Flat 1% ISAI rate for residential properties; one of the lowest in Mexico. 50% reduction for low-income first homes/condos ≤ $600K MXN (expats typically do not qualify)."
       },
       "notarial_fees": {
         "percent_min": 0.6,
@@ -538,11 +538,11 @@
         "percent_max": 0.3
       }
     },
-    "Quer\u00e9taro": {
+    "Querétaro": {
       "acquisition_tax_isai": {
         "percent": 2.0,
         "percent_max": 6.5,
-        "notes": "Flat 2% ISAI rate for residential properties; up to 6.5% for high-value properties. 75% subsidies for first homes \u2264 $900K MXN (expats typically do not qualify)."
+        "notes": "Flat 2% ISAI rate for residential properties; up to 6.5% for high-value properties. 75% subsidies for first homes ≤ $900K MXN (expats typically do not qualify)."
       },
       "notarial_fees": {
         "percent_min": 0.6,
@@ -556,7 +556,7 @@
     "Quintana Roo": {
       "acquisition_tax_isai": {
         "percent": 3.0,
-        "notes": "Flat 3% ISAI rate for residential properties (per 2025 ley for tourist zones); 2% for social housing \u2264 $1M MXN (expats typically do not qualify). Includes Canc\u00fan, Playa del Carmen, Tulum condos/land. Restricted zone applies."
+        "notes": "Flat 3% ISAI rate for residential properties (per 2025 ley for tourist zones); 2% for social housing ≤ $1M MXN (expats typically do not qualify). Includes Cancún, Playa del Carmen, Tulum condos/land. Restricted zone applies."
       },
       "notarial_fees": {
         "percent_min": 0.6,
@@ -574,7 +574,7 @@
         "notes": "One-time tourist tax for visitors (not property buyers)"
       }
     },
-    "San Luis Potos\u00ed": {
+    "San Luis Potosí": {
       "acquisition_tax_isai": {
         "percent": 2.0,
         "notes": "Flat 2% ISAI rate for residential properties. General social housing exemptions (expats typically do not qualify)."
@@ -591,7 +591,7 @@
     "Sinaloa": {
       "acquisition_tax_isai": {
         "percent": 2.0,
-        "notes": "Flat 2% ISAI rate for residential properties. 50% subsidy for first-time buyers of homes/condos \u2264 $800K MXN (expats typically do not qualify). Includes Mazatl\u00e1n - restricted zone applies."
+        "notes": "Flat 2% ISAI rate for residential properties. 50% subsidy for first-time buyers of homes/condos ≤ $800K MXN (expats typically do not qualify). Includes Mazatlán - restricted zone applies."
       },
       "notarial_fees": {
         "percent_min": 0.6,
@@ -606,7 +606,7 @@
     "Sonora": {
       "acquisition_tax_isai": {
         "percent": 2.0,
-        "notes": "Flat 2% ISAI rate for residential properties. Full exemption in border zones \u2264 $1M MXN for residential land (expats typically do not qualify). Includes Puerto Pe\u00f1asco (Rocky Point) - border with Arizona, restricted zone applies."
+        "notes": "Flat 2% ISAI rate for residential properties. Full exemption in border zones ≤ $1M MXN for residential land (expats typically do not qualify). Includes Puerto Peñasco (Rocky Point) - border with Arizona, restricted zone applies."
       },
       "notarial_fees": {
         "percent_min": 0.6,
@@ -636,7 +636,7 @@
     "Tamaulipas": {
       "acquisition_tax_isai": {
         "percent": 3.0,
-        "notes": "Flat 3% ISAI rate for residential properties; reduced to 2% for border first homes/condos \u2264 $900K MXN (expats typically do not qualify). Border state with Texas - restricted zone applies."
+        "notes": "Flat 3% ISAI rate for residential properties; reduced to 2% for border first homes/condos ≤ $900K MXN (expats typically do not qualify). Border state with Texas - restricted zone applies."
       },
       "notarial_fees": {
         "percent_min": 0.6,
@@ -665,7 +665,7 @@
     "Veracruz": {
       "acquisition_tax_isai": {
         "percent": 1.0,
-        "notes": "Flat 1% ISAI rate for residential properties; one of the lowest in Mexico. 50% subsidy for low-income first homes/land \u2264 $500K MXN (expats typically do not qualify). Gulf coast state - restricted zone applies."
+        "notes": "Flat 1% ISAI rate for residential properties; one of the lowest in Mexico. 50% subsidy for low-income first homes/land ≤ $500K MXN (expats typically do not qualify). Gulf coast state - restricted zone applies."
       },
       "notarial_fees": {
         "percent_min": 0.6,
@@ -677,10 +677,10 @@
       },
       "restricted_zone": true
     },
-    "Yucat\u00e1n": {
+    "Yucatán": {
       "acquisition_tax_isai": {
         "percent": 0.02,
-        "notes": "Minimal flat 0.02% ISAI rate for residential properties - lowest in Mexico (per merida.gob.mx). Up to 50% subsidy in M\u00e9rida for first buyers \u2264 $800K MXN (expats typically do not qualify). Includes M\u00e9rida - restricted zone applies."
+        "notes": "Minimal flat 0.02% ISAI rate for residential properties - lowest in Mexico (per merida.gob.mx). Up to 50% subsidy in Mérida for first buyers ≤ $800K MXN (expats typically do not qualify). Includes Mérida - restricted zone applies."
       },
       "notarial_fees": {
         "percent_min": 0.6,
@@ -695,7 +695,7 @@
     "Zacatecas": {
       "acquisition_tax_isai": {
         "percent": 2.0,
-        "notes": "Flat 2% ISAI rate for residential properties. 50% subsidy for rural first homes/land \u2264 $600K MXN (expats typically do not qualify)."
+        "notes": "Flat 2% ISAI rate for residential properties. 50% subsidy for rural first homes/land ≤ $600K MXN (expats typically do not qualify)."
       },
       "notarial_fees": {
         "percent_min": 0.6,
@@ -737,8 +737,8 @@
     ]
   },
   "glossary": {
-    "ISAI": "Impuesto Sobre Adquisici\u00f3n de Inmuebles - Property Acquisition Tax",
-    "Escritura P\u00fablica": "Public deed of property ownership",
+    "ISAI": "Impuesto Sobre Adquisición de Inmuebles - Property Acquisition Tax",
+    "Escritura Pública": "Public deed of property ownership",
     "Fideicomiso": "Bank trust required for foreign buyers in restricted zones",
     "Predial": "Annual municipal property tax",
     "Valor Catastral": "Assessed/cadastral value (typically 60-70% of market value)",
@@ -747,10 +747,10 @@
     "RFC": "Registro Federal de Contribuyentes - Mexican tax ID number"
   },
   "python_renderer": {
-    "version": "1.2.1",
+    "version": "1.3.0",
     "language": "python",
     "filename": "cierre_sensei_report.py",
-    "description": "Generates PNG reports with theme support (light=US Letter, dark=compact digital), centered header, improved layout, fixed date spacing, and readable caveats font size.",
-    "code": "from datetime import date\nfrom typing import Dict, List, Tuple, Optional\nfrom PIL import Image, ImageDraw, ImageFont\n\n\ndef _load_font(size: int, bold: bool = False, italic: bool = False) -> ImageFont.FreeTypeFont:\n    \"\"\"\n    Try to load a reasonable TrueType font; fall back to the default bitmap font.\n    \"\"\"\n    font_candidates = []\n\n    if bold and italic:\n        font_candidates.extend([\n            \"DejaVuSans-BoldOblique.ttf\",\n            \"Arial Bold Italic.ttf\",\n        ])\n    elif bold:\n        font_candidates.extend([\n            \"DejaVuSans-Bold.ttf\",\n            \"Arial Bold.ttf\",\n            \"Arial-Bold.ttf\",\n        ])\n    elif italic:\n        font_candidates.extend([\n            \"DejaVuSans-Oblique.ttf\",\n            \"Arial Italic.ttf\",\n        ])\n    else:\n        font_candidates.extend([\n            \"DejaVuSans.ttf\",\n            \"Arial.ttf\",\n        ])\n\n    for name in font_candidates:\n        try:\n            return ImageFont.truetype(name, size=size)\n        except Exception:\n            continue\n\n    # Fallback \u2013 always available but not as pretty\n    return ImageFont.load_default()\n\n\ndef generate_cierre_sensei_png(\n    purchase_summary: Dict[str, str],\n    addons: List[str],\n    line_items: List[Tuple[str, float, float, str]],\n    est_min: float,\n    est_max: float,\n    eff_min_pct: float,\n    eff_max_pct: float,\n    filename: str = \"cierre_sensei_report.png\",\n    prepared_date: Optional[str] = None,\n    theme: str = \"light\",\n) -> Image.Image:\n    \"\"\"\n    Generate a PNG report for Cierre Sensei.\n\n    Args:\n        purchase_summary: key/value strings for the summary box.\n        addons: list of add-on labels.\n        line_items: (description, min, max, notes) tuples.\n        est_min / est_max: total estimated range.\n        eff_min_pct / eff_max_pct: effective percentage range.\n        filename: output PNG filename.\n        prepared_date: optional date string (e.g. '12/3/2025').\n        theme: 'light' (printer-friendly, US Letter) or\n               'dark' (compact digital version).\n\n    Returns:\n        PIL Image object.\n    \"\"\"\n\n    # --- Canvas setup ---\n    if theme == \"dark\":\n        # Compact \"pretty digital\" layout\n        WIDTH, HEIGHT = 1800, 2400\n    else:\n        # Full US Letter at ~300dpi for printing\n        WIDTH, HEIGHT = 2550, 3300\n\n    margin_x = 260\n    margin_y = 260\n\n    # Always start with white body so print version is friendly\n    img = Image.new(\"RGB\", (WIDTH, HEIGHT), \"white\")\n    draw = ImageDraw.Draw(img)\n\n    # --- Fonts ---\n    title_font = _load_font(80, bold=True)\n    subtitle_font = _load_font(44)\n    normal_font = _load_font(34)\n    small_bold = _load_font(30, bold=True)\n    # Increased caveats font size for better readability\n    caveats_font = _load_font(30, italic=True)  # Increased from 34 to 30 for better readability\n\n    # --- Theme configuration ---\n    if theme == \"dark\":\n        header_fill = \"black\"\n        footer_fill = \"black\"\n        header_text_color = \"white\"\n        footer_text_color = \"white\"\n        line_color_footer = \"white\"\n    else:\n        header_fill = \"black\"\n        footer_fill = None        # footer on white\n        header_text_color = \"white\"\n        footer_text_color = \"black\"\n        line_color_footer = \"black\"\n\n    # ----------------------------------------------------------------\n    # HEADER BAND \u2013 solid black from the very top, centered text\n    # ----------------------------------------------------------------\n    if prepared_date is None:\n        prepared_date = date.today().strftime(\"%-m/%-d/%Y\")\n\n    title_text = \"Cierre Sensei\"\n    subtitle_text = \"Mexican Closing Costs Estimator\"\n    prepared_text = f\"Prepared: {prepared_date}\"\n\n    # Measure title & subtitle\n    title_bbox = draw.textbbox((0, 0), title_text, font=title_font)\n    title_w = title_bbox[2] - title_bbox[0]\n    title_h = title_bbox[3] - title_bbox[1]\n\n    sub_bbox = draw.textbbox((0, 0), subtitle_text, font=subtitle_font)\n    sub_w = sub_bbox[2] - sub_bbox[0]\n    sub_h = sub_bbox[3] - sub_bbox[1]\n\n    stack_spacing = 16\n    total_stack_h = title_h + stack_spacing + sub_h\n\n    header_height = total_stack_h + 80  # padding\n    header_top = 0\n    header_bottom = header_top + header_height\n\n    # Fill header band full-width\n    draw.rectangle([0, header_top, WIDTH, header_bottom], fill=header_fill)\n\n    # Center title + subtitle in the band\n    title_x = (WIDTH - title_w) // 2\n    start_y = header_top + (header_height - total_stack_h) // 2\n    title_y = start_y\n    subtitle_y = title_y + title_h + stack_spacing\n\n    draw.text((title_x, title_y), title_text, font=title_font, fill=header_text_color)\n    draw.text(\n        ((WIDTH - sub_w) // 2, subtitle_y),\n        subtitle_text,\n        font=subtitle_font,\n        fill=header_text_color,\n    )\n\n    # Date in top-right corner of the band\n    # FIX: Calculate title right edge to ensure date doesn't overlap\n    title_right_edge = title_x + title_w\n    date_bbox = draw.textbbox((0, 0), prepared_text, font=small_bold)\n    date_w = date_bbox[2] - date_bbox[0]\n    date_h = date_bbox[3] - date_bbox[1]\n\n    date_y = header_top + 32  # vertical position is fine\n\n    # FIX: Position date far enough right to avoid title overlap\n    # Ensure at least 100px gap between title right edge and date left edge\n    min_gap = 100\n    date_x = WIDTH - margin_x - date_w\n    \n    # If title extends too far right, push date even further right\n    if title_right_edge + min_gap > date_x:\n        date_x = title_right_edge + min_gap\n    \n    # But don't go beyond the right margin\n    if date_x + date_w > WIDTH - margin_x:\n        date_x = WIDTH - margin_x - date_w\n\n    draw.text(\n        (date_x, date_y),\n        prepared_text,\n        font=small_bold,\n        fill=header_text_color,\n    )\n\n    # Body content starts just below the header band\n    y = header_bottom + 80\n\n    # -----------------------------------\n    # Add-ons (left column)\n    # -----------------------------------\n    ax = margin_x\n    ay = y\n    draw.text((ax, ay), \"Add-ons:\", font=normal_font, fill=\"black\")\n    ay += normal_font.size + 12\n\n    for item in addons:\n        # use simple '-' to avoid encoding issues\n        draw.text((ax + 40, ay), f\"- {item}\", font=normal_font, fill=\"black\")\n        ay += normal_font.size + 10\n\n    addons_bottom = ay\n\n    # -----------------------------------\n    # Purchase summary box (right column)\n    # -----------------------------------\n    box_width = 860\n    bx = WIDTH - margin_x - box_width\n    by = y\n\n    lines = [f\"{k}:  {v}\" for k, v in purchase_summary.items()]\n    line_height = normal_font.size + 8\n    box_height = line_height * len(lines) + 26\n\n    draw.rectangle(\n        [bx, by, bx + box_width, by + box_height],\n        outline=\"black\",\n        width=3,\n    )\n\n    ty = by + 14\n    for line in lines:\n        draw.text((bx + 18, ty), line, font=normal_font, fill=\"black\")\n        ty += line_height\n\n    summary_bottom = by + box_height\n\n    # Move below whichever block is taller\n    y = max(addons_bottom, summary_bottom) + 90\n\n    # -------------------------\n    # Fee table header & rows\n    # -------------------------\n    desc_x = margin_x\n    min_x = desc_x + 900\n    max_x = min_x + 420\n    notes_x = max_x + 420\n\n    header_y = y\n    draw.text((desc_x, header_y), \"Description\", font=small_bold, fill=\"black\")\n    draw.text((min_x, header_y), \"Min Amount\", font=small_bold, fill=\"black\")\n    draw.text((max_x, header_y), \"Max Amount\", font=small_bold, fill=\"black\")\n    draw.text((notes_x, header_y), \"Notes\", font=small_bold, fill=\"black\")\n\n    y += small_bold.size + 12\n    draw.line((margin_x, y, WIDTH - margin_x, y), fill=\"black\", width=2)\n    y += 26\n\n    def fmt_currency(val: float) -> str:\n        return \"${:,.0f}\".format(val)\n\n    row_height = normal_font.size + 18\n\n    for desc, min_v, max_v, notes in line_items:\n        draw.text((desc_x, y), desc, font=normal_font, fill=\"black\")\n        draw.text((min_x, y), fmt_currency(min_v), font=normal_font, fill=\"black\")\n        draw.text((max_x, y), fmt_currency(max_v), font=normal_font, fill=\"black\")\n        if notes:\n            draw.text((notes_x, y), notes, font=normal_font, fill=\"black\")\n        y += row_height\n\n    # ------------------------------------\n    # Totals section (just above footer)\n    # ------------------------------------\n    y += 80\n    bold_total_font = _load_font(40, bold=True)\n    normal_total_font = _load_font(40)\n\n    draw.text((margin_x, y), \"Estimated Range:\", font=bold_total_font, fill=\"black\")\n    draw.text(\n        (margin_x + 420, y),\n        f\"{fmt_currency(est_min)} \u2013 {fmt_currency(est_max)}\",\n        font=normal_total_font,\n        fill=\"black\",\n    )\n\n    y += bold_total_font.size + 18\n\n    draw.text((margin_x, y), \"Effective Rate %:\", font=bold_total_font, fill=\"black\")\n    draw.text(\n        (margin_x + 420, y),\n        f\"{eff_min_pct:.1f}% \u2013 {eff_max_pct:.1f}%\",\n        font=normal_total_font,\n        fill=\"black\",\n    )\n\n    # ----------------------------------------------------------------\n    # FOOTER \u2013 Caveats & Notes + final disclaimer\n    # ----------------------------------------------------------------\n    footer_height = 420\n    footer_top = HEIGHT - footer_height\n    footer_bottom = HEIGHT\n\n    # Filled band for dark \"pretty\" theme; text on white for light theme\n    if footer_fill:\n        draw.rectangle([0, footer_top, WIDTH, footer_bottom], fill=footer_fill)\n\n    # Separator line\n    sep_y = footer_top + 40\n    draw.line(\n        (margin_x, sep_y, WIDTH - margin_x, sep_y),\n        fill=line_color_footer,\n        width=3,\n    )\n\n    # Caveats header\n    y_footer = sep_y + 40\n    draw.text(\n        (margin_x, y_footer),\n        \"Caveats & Notes\",\n        font=small_bold,\n        fill=footer_text_color,\n    )\n    y_footer += small_bold.size + 24\n\n    caveats = [\n        \"Legal representation fees can vary; some attorneys charge 1-2.5% of the purchase price.\",\n        \"Social-housing / first-home discounts rarely apply to foreign buyers and are not included.\",\n        \"ISAI and registration fee structures may change; verify with your notario before closing.\",\n        \"Fideicomiso requirements and costs vary by bank; confirm exact amounts with your trustee.\",\n    ]\n\n    # FIX: Use larger font for caveats and adjust line spacing\n    for text in caveats:\n        draw.text(\n            (margin_x + 40, y_footer),\n            f\"- {text}\",\n            font=caveats_font,  # Now using larger 30pt font for better readability\n            fill=footer_text_color,\n        )\n        y_footer += int(caveats_font.size * 1.8)\n\n    # Centered disclaimer at very bottom\n    disclaimer = (\n        \"Cierre Sensei \u00b7 Informational estimate only \u00b7 Not legal, tax, or investment advice\"\n    )\n    disc_bbox = draw.textbbox((0, 0), disclaimer, font=caveats_font)\n    disc_w = disc_bbox[2] - disc_bbox[0]\n    disc_h = disc_bbox[3] - disc_bbox[1]\n\n    draw.text(\n        ((WIDTH - disc_w) // 2, footer_bottom - disc_h - 40),\n        disclaimer,\n        font=caveats_font,\n        fill=footer_text_color,\n    )\n\n    img.save(filename)\n    return img\n\n\nif __name__ == \"__main__\":\n    purchase_summary_example = {\n        \"Purchase Price\": \"$500,000 USD\",\n        \"Type\": \"Condo\",\n        \"State\": \"Quintana Roo\",\n        \"Restricted Zone\": \"Yes\",\n        \"Foreign Buyer\": \"Yes\",\n    }\n\n    addons_example = [\n        \"Title Insurance\",\n        \"Home Inspection\",\n        \"Attorney\",\n        \"Translator\",\n        \"Closing Coordinator\",\n    ]\n\n    line_items_example = [\n        (\"ISAI 3%\",            15000, 15000, \"% of purchase price\"),\n        (\"Notarial Fees\",       3000,  4500, \"Range\"),\n        (\"Registration\",        1500,  2500, \"\"),\n        (\"Escrow\",               750,   750, \"Flat fee\"),\n        (\"Certificates\",          40,    60, \"\"),\n        (\"Appraisal\",            500,  2500, \"\"),\n        (\"Fideicomiso Setup\",   1000,  2000, \"If restricted + foreign\"),\n        (\"Fideicomiso Permit\",  1100,  1100, \"One-time fee\"),\n        (\"Fideicomiso Annual\",   500,   800, \"Recurring\"),\n        (\"Title Insurance\",     1500,  1500, \"\"),\n        (\"Home Inspection\",      500,   500, \"\"),\n        (\"Attorney\",            2500,  2500, \"\"),\n        (\"Translator\",           500,   500, \"\"),\n        (\"Closing Coordinator\",  750,   750, \"\"),\n    ]\n\n    # Test both themes\n    img = generate_cierre_sensei_png(\n        purchase_summary=purchase_summary_example,\n        addons=addons_example,\n        line_items=line_items_example,\n        est_min=28190,\n        est_max=39660,\n        eff_min_pct=5.6,\n        eff_max_pct=7.9,\n        filename=\"cierre_sensei_dark_compact.png\",\n        prepared_date=\"12/3/2025\",\n        theme=\"dark\",\n    )\n    print(\"Saved cierre_sensei_dark_compact.png\")\n\n    img = generate_cierre_sensei_png(\n        purchase_summary=purchase_summary_example,\n        addons=addons_example,\n        line_items=line_items_example,\n        est_min=28190,\n        est_max=39660,\n        eff_min_pct=5.6,\n        eff_max_pct=7.9,\n        filename=\"cierre_sensei_report.png\",\n        prepared_date=\"12/3/2025\",\n        theme=\"light\",\n    )\n    print(\"Saved cierre_sensei_report.png\")\n"
+    "description": "Generates PNG reports matching report_mockup_cursor.png design. Restored template: dark blue background (RGB 30,50,80), light blue titles, white body text, proper section order (Header → Purchase Summary → Fee Breakdown → Estimated Totals → Add-Ons → Footer).",
+    "code": "from datetime import date\nfrom typing import Dict, List, Tuple, Optional\nfrom PIL import Image, ImageDraw, ImageFont\n\n\ndef _load_font(size: int, bold: bool = False, italic: bool = False) -> ImageFont.FreeTypeFont:\n    \"\"\"\n    Try to load a reasonable TrueType font; fall back to the default bitmap font.\n    \"\"\"\n    font_candidates = []\n\n    if bold and italic:\n        font_candidates.extend([\n            \"DejaVuSans-BoldOblique.ttf\",\n            \"Arial Bold Italic.ttf\",\n        ])\n    elif bold:\n        font_candidates.extend([\n            \"DejaVuSans-Bold.ttf\",\n            \"Arial Bold.ttf\",\n            \"Arial-Bold.ttf\",\n        ])\n    elif italic:\n        font_candidates.extend([\n            \"DejaVuSans-Oblique.ttf\",\n            \"Arial Italic.ttf\",\n        ])\n    else:\n        font_candidates.extend([\n            \"DejaVuSans.ttf\",\n            \"Arial.ttf\",\n        ])\n\n    for name in font_candidates:\n        try:\n            return ImageFont.truetype(name, size=size)\n        except Exception:\n            continue\n\n    # Fallback – always available but not as pretty\n    return ImageFont.load_default()\n\n\ndef generate_cierre_sensei_png(\n    purchase_summary: Dict[str, str],\n    addons: List[str],\n    line_items: List[Tuple[str, float, float, str]],\n    est_min: float,\n    est_max: float,\n    eff_min_pct: float,\n    eff_max_pct: float,\n    filename: str = \"cierre_sensei_report.png\",\n    prepared_date: Optional[str] = None,\n    theme: str = \"mockup\",\n) -> Image.Image:\n    \"\"\"\n    Generate a PNG report matching the mockup design.\n    \n    Args:\n        purchase_summary: key/value strings for the summary.\n        addons: list of add-on labels.\n        line_items: (description, min, max, notes) tuples.\n        est_min / est_max: total estimated range.\n        eff_min_pct / eff_max_pct: effective percentage range.\n        filename: output PNG filename.\n        prepared_date: optional date string (e.g. '12/4/2025').\n        theme: 'mockup' (matches report_mockup_cursor.png design).\n    \n    Returns:\n        PIL Image object.\n    \"\"\"\n    \n    # Canvas setup - matching mockup dimensions\n    WIDTH, HEIGHT = 1800, 2400\n    margin_x = 120\n    margin_y = 100\n    \n    # Dark blue-grey background (RGB: 30, 50, 80)\n    bg_color = (30, 50, 80)\n    img = Image.new(\"RGB\", (WIDTH, HEIGHT), bg_color)\n    draw = ImageDraw.Draw(img)\n    \n    # Color scheme matching mockup\n    light_blue = (100, 150, 255)  # Light blue for titles\n    white = (255, 255, 255)       # White for body text\n    separator_color = (150, 180, 220)  # Light grey-blue for separator lines\n    \n    # Fonts\n    title_font = _load_font(72, bold=True)\n    section_font = _load_font(42, bold=True)\n    normal_font = _load_font(32)\n    small_font = _load_font(28)\n    totals_font = _load_font(38, bold=True)\n    \n    # Prepare date\n    if prepared_date is None:\n        prepared_date = date.today().strftime(\"%-m/%-d/%Y\")\n    \n    y = margin_y\n    \n    # ================================================================\n    # HEADER - Title\n    # ================================================================\n    title_text = \"Estimated Closing Costs (MX Real Estate)\"\n    title_bbox = draw.textbbox((0, 0), title_text, font=title_font)\n    title_w = title_bbox[2] - title_bbox[0]\n    title_x = (WIDTH - title_w) // 2\n    \n    draw.text((title_x, y), title_text, font=title_font, fill=light_blue)\n    y += title_font.size + 60\n    \n    # Separator line\n    draw.line((margin_x, y, WIDTH - margin_x, y), fill=separator_color, width=2)\n    y += 40\n    \n    # ================================================================\n    # PURCHASE SUMMARY\n    # ================================================================\n    for key, value in purchase_summary.items():\n        text = f\"{key}: {value}\"\n        draw.text((margin_x, y), text, font=normal_font, fill=white)\n        y += normal_font.size + 12\n    \n    y += 30\n    draw.line((margin_x, y, WIDTH - margin_x, y), fill=separator_color, width=2)\n    y += 40\n    \n    # ================================================================\n    # FEE BREAKDOWN Section\n    # ================================================================\n    section_title = \"Fee Breakdown:\"\n    draw.text((margin_x, y), section_title, font=section_font, fill=light_blue)\n    y += section_font.size + 20\n    \n    def fmt_currency(val: float) -> str:\n        return \"${:,.0f}\".format(val)\n    \n    for desc, min_v, max_v, notes in line_items:\n        # Description\n        draw.text((margin_x, y), desc, font=normal_font, fill=white)\n        \n        # Amount range\n        if min_v == max_v:\n            amount_text = fmt_currency(min_v)\n        else:\n            amount_text = f\"{fmt_currency(min_v)} - {fmt_currency(max_v)}\"\n        \n        # Position amount (right-aligned would be better, but keeping simple for now)\n        amount_x = margin_x + 500\n        draw.text((amount_x, y), amount_text, font=normal_font, fill=white)\n        \n        # Notes if present\n        if notes:\n            notes_x = margin_x + 900\n            draw.text((notes_x, y), f\"({notes})\", font=small_font, fill=white)\n        \n        y += normal_font.size + 16\n    \n    y += 30\n    draw.line((margin_x, y, WIDTH - margin_x, y), fill=separator_color, width=2)\n    y += 40\n    \n    # ================================================================\n    # ESTIMATED TOTALS\n    # ================================================================\n    # Estimated Range\n    range_text = f\"Estimated Range: {fmt_currency(est_min)} - {fmt_currency(est_max)}\"\n    draw.text((margin_x, y), range_text, font=totals_font, fill=white)\n    y += totals_font.size + 20\n    \n    # Effective Rate\n    rate_text = f\"Effective Rate: {eff_min_pct:.1f}% - {eff_max_pct:.1f}%\"\n    draw.text((margin_x, y), rate_text, font=totals_font, fill=white)\n    y += totals_font.size + 30\n    \n    draw.line((margin_x, y, WIDTH - margin_x, y), fill=separator_color, width=2)\n    y += 40\n    \n    # ================================================================\n    # ADD-ONS INCLUDED Section\n    # ================================================================\n    section_title = \"Add-Ons Included:\"\n    draw.text((margin_x, y), section_title, font=section_font, fill=light_blue)\n    y += section_font.size + 20\n    \n    for item in addons:\n        draw.text((margin_x + 40, y), f\"- {item}\", font=normal_font, fill=white)\n        y += normal_font.size + 12\n    \n    y += 30\n    \n    # ================================================================\n    # FOOTER\n    # ================================================================\n    footer_y = HEIGHT - 80\n    \n    # Prepared date\n    prepared_text = f\"Prepared: {prepared_date}\"\n    draw.text((margin_x, footer_y), prepared_text, font=small_font, fill=white)\n    \n    # Disclaimer\n    disclaimer = \"Informational only; confirm with local professionals.\"\n    disc_bbox = draw.textbbox((0, 0), disclaimer, font=small_font)\n    disc_w = disc_bbox[2] - disc_bbox[0]\n    disc_x = WIDTH - margin_x - disc_w\n    draw.text((disc_x, footer_y), disclaimer, font=small_font, fill=white)\n    \n    img.save(filename)\n    return img\n\n\nif __name__ == \"__main__\":\n    purchase_summary_example = {\n        \"Purchase Price\": \"$500,000 USD\",\n        \"Type\": \"Condo\",\n        \"State\": \"Quintana Roo\",\n        \"Restricted Zone\": \"Yes\",\n        \"Foreign Buyer\": \"Yes\",\n    }\n\n    addons_example = [\n        \"Title Insurance\",\n        \"Home Inspection\",\n        \"Attorney\",\n        \"Translator\",\n        \"Closing Coordinator\",\n    ]\n\n    line_items_example = [\n        (\"ISAI 3%\",            15000, 15000, \"% of purchase price\"),\n        (\"Notarial Fees\",       3000,  4500, \"Range\"),\n        (\"Registration\",        1500,  2500, \"\"),\n        (\"Escrow\",               750,   750, \"Flat fee\"),\n        (\"Certificates\",          40,    60, \"\"),\n        (\"Appraisal\",            500,  2500, \"\"),\n        (\"Fideicomiso Setup\",   1000,  2000, \"If restricted + foreign\"),\n        (\"Fideicomiso Permit\",  1100,  1100, \"One-time fee\"),\n        (\"Fideicomiso Annual\",   500,   800, \"Recurring\"),\n        (\"Title Insurance\",     1500,  1500, \"\"),\n        (\"Home Inspection\",      500,   500, \"\"),\n        (\"Attorney\",            2500,  2500, \"\"),\n        (\"Translator\",           500,   500, \"\"),\n        (\"Closing Coordinator\",  750,   750, \"\"),\n    ]\n\n    img = generate_cierre_sensei_png(\n        purchase_summary=purchase_summary_example,\n        addons=addons_example,\n        line_items=line_items_example,\n        est_min=29140,\n        est_max=34960,\n        eff_min_pct=5.8,\n        eff_max_pct=7.0,\n        filename=\"cierre_sensei_report_mockup.png\",\n        prepared_date=\"12/4/2025\",\n        theme=\"mockup\",\n    )\n    print(\"Saved cierre_sensei_report_mockup.png\")\n\n"
   }
 }
