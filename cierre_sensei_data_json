@@ -6,7 +6,7 @@
     "description": "Comprehensive closing costs database for Mexican real estate transactions including all 32 states - RESIDENTIAL PROPERTIES ONLY",
     "notes": "ISAI rates apply to RESIDENTIAL properties only (condos, houses, residential land) - NOT commercial, agricultural, or other property types. Rates and fees vary by state and municipality. Source: December 2025 state finance laws via SAT/SHCP. Always verify with local authorities. Python renderer restored to match report_mockup_cursor.png design (v1.3.0) - dark blue background with light blue/white text, proper section layout matching mockup design.",
     "sponsor_text": {
-      "enabled": false,
+      "enabled": true,
       "prefix": "brought to you by:",
       "company": "Your Company Name",
       "contact": "Contact Info"
