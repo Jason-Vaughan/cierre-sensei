@@ -34,9 +34,10 @@ def _get_font_size(font) -> int:
     try:
         return font.size
     except AttributeError:
-        # Default font doesn't have .size, estimate from textbbox
-        bbox = ImageDraw.Draw(Image.new("RGB", (100, 100))).textbbox((0, 0), "M", font=font)
-        return bbox[3] - bbox[1] if len(bbox) == 4 else 12
+        # Default font doesn't have .size, use a reasonable estimate
+        # Most default fonts are around 10-12 pixels, but we'll estimate based on context
+        # For now, return a safe default that matches typical usage
+        return 12
 
 
 def generate_cierre_sensei_png(
