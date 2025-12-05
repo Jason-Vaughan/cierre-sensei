@@ -73,7 +73,7 @@ def generate_cierre_sensei_png(
         bg_color = (255, 255, 255)
         title_color = (0, 0, 0)
         text_color = (0, 0, 0)
-        separator_color = (100, 100, 100)
+        separator_color = (0, 0, 0)
         box_outline = (0, 0, 0)
     else:
         # Dark theme: dark blue background (default)
@@ -83,145 +83,155 @@ def generate_cierre_sensei_png(
         separator_color = (150, 180, 220)
         box_outline = (150, 180, 220)
     
-    # Canvas setup - matching mockup dimensions
-    WIDTH, HEIGHT = 1800, 2400
-    margin_x = 120
-    margin_y = 100
+    # Canvas setup (US Letter @ ~300dpi)
+    WIDTH, HEIGHT = 2550, 3300
+    margin_x = 260
+    margin_y = 260
     
     img = Image.new("RGB", (WIDTH, HEIGHT), bg_color)
     draw = ImageDraw.Draw(img)
     
     # Fonts
-    title_font = _load_font(72, bold=True)
-    section_font = _load_font(42, bold=True)
-    normal_font = _load_font(32)
-    small_font = _load_font(28)
-    totals_font = _load_font(38, bold=True)
+    title_font = _load_font(80, bold=True)
+    subtitle_font = _load_font(44, bold=False)
+    normal_font = _load_font(34)
+    small_bold = _load_font(30, bold=True)
     
     # Prepare date - cross-platform format
     if prepared_date is None:
         today = date.today()
-        # Use format that works on all platforms
         prepared_date = f"{today.month}/{today.day}/{today.year}"
     
+    # --- Header ---
     y = margin_y
+    title_text = "Cierre Sensei"
+    prepared_text = f"Prepared: {prepared_date}"
     
-    # ================================================================
-    # HEADER - Title
-    # ================================================================
-    title_text = "Estimated Closing Costs (MX Real Estate)"
-    title_bbox = draw.textbbox((0, 0), title_text, font=title_font)
-    title_w = title_bbox[2] - title_bbox[0]
-    title_x = (WIDTH - title_w) // 2
+    draw.text((margin_x, y), title_text, font=title_font, fill=title_color)
     
-    draw.text((title_x, y), title_text, font=title_font, fill=title_color)
-    y += _get_font_size(title_font) + 60
+    # Right-aligned prepared date
+    bbox = draw.textbbox((0, 0), prepared_text, font=small_bold)
+    date_w = bbox[2] - bbox[0]
+    draw.text((WIDTH - margin_x - date_w, y + 10),
+              prepared_text, font=small_bold, fill=text_color)
     
-    # Separator line
-    draw.line((margin_x, y, WIDTH - margin_x, y), fill=separator_color, width=2)
-    y += 40
+    y += _get_font_size(title_font) + 40
+    draw.text((margin_x, y), "Closing Costs Estimation",
+              font=subtitle_font, fill=text_color)
+    y += _get_font_size(subtitle_font) + 40
     
-    # ================================================================
-    # PURCHASE SUMMARY
-    # ================================================================
-    for key, value in purchase_summary.items():
-        text = f"{key}: {value}"
-        draw.text((margin_x, y), text, font=normal_font, fill=text_color)
-        y += _get_font_size(normal_font) + 12
+    # --- Add-ons (left) ---
+    ax = margin_x
+    ay = y
+    draw.text((ax, ay), "Addons:", font=normal_font, fill=text_color)
+    ay += _get_font_size(normal_font) + 12
     
-    y += 30
-    draw.line((margin_x, y, WIDTH - margin_x, y), fill=separator_color, width=2)
-    y += 40
+    for item in addons:
+        draw.text((ax + 40, ay), f"• {item}", font=normal_font, fill=text_color)
+        ay += _get_font_size(normal_font) + 10
     
-    # ================================================================
-    # FEE BREAKDOWN Section
-    # ================================================================
-    section_title = "Fee Breakdown:"
-    draw.text((margin_x, y), section_title, font=section_font, fill=title_color)
-    y += _get_font_size(section_font) + 20
+    addons_bottom = ay
     
+    # --- Purchase summary box (right) ---
+    box_width = 860
+    bx = WIDTH - margin_x - box_width
+    by = y
+    
+    lines = [f"{k}:  {v}" for k, v in purchase_summary.items()]
+    line_height = _get_font_size(normal_font) + 8
+    box_height = line_height * len(lines) + 26
+    
+    draw.rectangle([bx, by, bx + box_width, by + box_height],
+                   outline=box_outline, width=3)
+    
+    ty = by + 14
+    for line in lines:
+        draw.text((bx + 18, ty), line, font=normal_font, fill=text_color)
+        ty += line_height
+    
+    summary_bottom = by + box_height
+    
+    # Move y below the higher of the two blocks
+    y = max(addons_bottom, summary_bottom) + 90
+    
+    # --- Table header ---
+    desc_x = margin_x
+    min_x = desc_x + 900
+    max_x = min_x + 420
+    notes_x = max_x + 420
+    
+    header_y = y
+    draw.text((desc_x, header_y), "Description",
+              font=small_bold, fill=text_color)
+    draw.text((min_x, header_y), "Min Amount",
+              font=small_bold, fill=text_color)
+    draw.text((max_x, header_y), "Max Amount",
+              font=small_bold, fill=text_color)
+    draw.text((notes_x, header_y), "Notes",
+              font=small_bold, fill=text_color)
+    
+    y += _get_font_size(small_bold) + 12
+    draw.line((margin_x, y, WIDTH - margin_x, y),
+              fill=separator_color, width=2)
+    y += 26
+    
+    # --- Table rows ---
     def fmt_currency(val: float) -> str:
         return "${:,.0f}".format(val)
     
+    row_height = _get_font_size(normal_font) + 18
+    
     for desc, min_v, max_v, notes in line_items:
-        # Description
-        draw.text((margin_x, y), desc, font=normal_font, fill=text_color)
+        # description
+        draw.text((desc_x, y), desc, font=normal_font, fill=text_color)
         
-        # Amount range
-        if min_v == max_v:
-            amount_text = fmt_currency(min_v)
-        else:
-            amount_text = f"{fmt_currency(min_v)} - {fmt_currency(max_v)}"
+        # min / max
+        draw.text((min_x, y), fmt_currency(min_v),
+                  font=normal_font, fill=text_color)
+        draw.text((max_x, y), fmt_currency(max_v),
+                  font=normal_font, fill=text_color)
         
-        # Position amount
-        amount_x = margin_x + 500
-        draw.text((amount_x, y), amount_text, font=normal_font, fill=text_color)
-        
-        # Notes if present
+        # notes
         if notes:
-            notes_x = margin_x + 900
-            draw.text((notes_x, y), f"({notes})", font=small_font, fill=text_color)
+            draw.text((notes_x, y), notes, font=normal_font, fill=text_color)
         
-        y += _get_font_size(normal_font) + 16
+        y += row_height
     
-    y += 30
-    draw.line((margin_x, y, WIDTH - margin_x, y), fill=separator_color, width=2)
-    y += 40
+    # --- Totals section ---
+    y += 100
+    # Estimated Range label and value
+    draw.text((margin_x, y), "Estimated Range:",
+              font=_load_font(40, bold=True), fill=text_color)
+    draw.text((margin_x + 420, y),
+              f"{fmt_currency(est_min)} – {fmt_currency(est_max)}",
+              font=_load_font(40), fill=text_color)
     
-    # ================================================================
-    # ESTIMATED TOTALS
-    # ================================================================
-    # Estimated Range
-    range_text = f"Estimated Range: {fmt_currency(est_min)} - {fmt_currency(est_max)}"
-    draw.text((margin_x, y), range_text, font=totals_font, fill=text_color)
-    y += _get_font_size(totals_font) + 20
+    y += 40 + 18
     
-    # Effective Rate
-    rate_text = f"Effective Rate: {eff_min_pct:.1f}% - {eff_max_pct:.1f}%"
-    draw.text((margin_x, y), rate_text, font=totals_font, fill=text_color)
-    y += _get_font_size(totals_font) + 30
+    # Effective Rate label and value
+    draw.text((margin_x, y), "Effective Rate %:",
+              font=_load_font(40, bold=True), fill=text_color)
+    draw.text((margin_x + 420, y),
+              f"{eff_min_pct:.1f}% – {eff_max_pct:.1f}%",
+              font=_load_font(40), fill=text_color)
     
-    draw.line((margin_x, y, WIDTH - margin_x, y), fill=separator_color, width=2)
-    y += 40
-    
-    # ================================================================
-    # ADD-ONS INCLUDED Section
-    # ================================================================
-    section_title = "Add-Ons Included:"
-    draw.text((margin_x, y), section_title, font=section_font, fill=title_color)
-    y += _get_font_size(section_font) + 20
-    
-    for item in addons:
-        draw.text((margin_x + 40, y), f"- {item}", font=normal_font, fill=text_color)
-        y += _get_font_size(normal_font) + 12
-    
-    y += 30
-    
-    # ================================================================
-    # SPONSOR TEXT (if provided)
-    # ================================================================
+    # --- SPONSOR TEXT (if provided) ---
     if sponsor_text:
         sponsor_y = HEIGHT - 140
-        sponsor_bbox = draw.textbbox((0, 0), sponsor_text, font=small_font)
+        sponsor_bbox = draw.textbbox((0, 0), sponsor_text, font=small_bold)
         sponsor_w = sponsor_bbox[2] - sponsor_bbox[0]
         sponsor_x = (WIDTH - sponsor_w) // 2
-        draw.text((sponsor_x, sponsor_y), sponsor_text, font=small_font, fill=text_color)
+        draw.text((sponsor_x, sponsor_y), sponsor_text, font=small_bold, fill=text_color)
     
-    # ================================================================
-    # FOOTER
-    # ================================================================
+    # --- FOOTER ---
     footer_y = HEIGHT - 80
-    
-    # Prepared date
-    prepared_text = f"Prepared: {prepared_date}"
-    draw.text((margin_x, footer_y), prepared_text, font=small_font, fill=text_color)
     
     # Disclaimer
     disclaimer = "Informational only; confirm with local professionals."
-    disc_bbox = draw.textbbox((0, 0), disclaimer, font=small_font)
+    disc_bbox = draw.textbbox((0, 0), disclaimer, font=small_bold)
     disc_w = disc_bbox[2] - disc_bbox[0]
     disc_x = WIDTH - margin_x - disc_w
-    draw.text((disc_x, footer_y), disclaimer, font=small_font, fill=text_color)
+    draw.text((disc_x, footer_y), disclaimer, font=small_bold, fill=text_color)
     
     img.save(filename)
     return img
