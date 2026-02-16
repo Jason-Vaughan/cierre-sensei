@@ -7,10 +7,10 @@
         "notes": "ISAI rates apply to RESIDENTIAL properties only (condos, houses, residential land) - NOT commercial, agricultural, or other property types. Rates and fees vary by state and municipality. Source: December 2025 state finance laws via SAT/SHCP. Always verify with local authorities.",
         "sponsor_text": {
             "intro": "brought to you by:",
-            "company": "Your Company Name Here",
-            "website": "Your Website Here",
-            "tagline": "your tagline here - contact us for add placement",
-            "contact": "Whats App | Email | Facebook - Contact Info Here"
+            "company": "PV Lives Here",
+            "website": "https://pvliveshere.com/",
+            "tagline": "We Are Your Real Estate Professionals - contact us for add placement",
+            "contact": "WhatsApp at +52 777 267 7989 | info@pvliveshere.com | https://www.facebook.com/pvliveshere - Contact Info Here"
         }
     },
     "fee_definitions": [
@@ -155,6 +155,8 @@
             "category": "Title Services",
             "subcategory": "Title Insurance",
             "calc_type": "user_entered",
+            "default_min": 0,
+            "default_max": 500,
             "description": "Optional insurance policy protecting against title defects",
             "varies_by_state": false,
             "required": false,
@@ -166,6 +168,8 @@
             "category": "Professional Services",
             "subcategory": "Legal Representation",
             "calc_type": "user_entered",
+            "default_min": .5% of purchase price,
+            "default_max": 1% of purchase price,
             "description": "Attorney fees for representing buyer throughout transaction",
             "varies_by_state": false,
             "required": false,
@@ -177,6 +181,8 @@
             "category": "Professional Services",
             "subcategory": "Translation Services",
             "calc_type": "user_entered",
+            "default_min": 200,
+            "default_max": 500,
             "description": "Official translation of documents for foreign buyers",
             "varies_by_state": false,
             "required": false,
